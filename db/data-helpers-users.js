@@ -13,6 +13,7 @@ const knex = require("knex")({
 
 // const bcrypt = require("bcryptjs");
 
+//register
 module.exports = function makeUserDataHelpers(knex) {
   return {
     // Create User & hash the password
@@ -91,6 +92,38 @@ module.exports = function makeUserDataHelpers(knex) {
           }
         });
     }
+
+    /*
+    removeUser: function(email, callback) {
+      knex("users")
+        .where("email", email)
+        .del()
+        .asCallback(callback);
+    },
+    getUserId: function(email,callback) {
+			knex('users').where('email',email).select('id').asCallback(function(err,res) {
+				callback(err,res[0].id);
+			});		
+    },
+    
+		loginUser: function(email,password,callback) {
+			knex('users').where('email',email).select(['id','name','password'])
+				.asCallback(function(err,res) { 
+					if (!res) {
+						callback(err);
+					} else if (!bcrypt.compareSync(password,res[0].password)) {
+						callback(err);
+					}
+					else if (bcrypt.compareSync(password,res[0].password)){ 
+						console.log(res[0].id);
+						callback(err,{
+							 id: res[0].id,
+							 name: res[0].name,
+							 email: res[0].email
+						}); }
+			})
+
+
+*/
   };
 };
-

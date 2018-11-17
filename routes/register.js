@@ -3,15 +3,14 @@ module.exports = function(dataHelpers) {
 
   const express = require("express");
   const router = express.Router();
-  // const DataHelpers = require("...DataHelpers");
   const bcrypt = require("bcryptjs");
 
-  router.get("/register", (req, res) => {
+  router.get("/", (req, res) => {
     res.render("register"); // make the ejs
   });
 
   // insert the input info into database! have not done yet
-  router.post("/register", (req, res) => {
+  router.post("/", (req, res) => {
     if (req.body.email && req.body.password) {
       dataHelpers.createUser(req.body.email, req.body.password, (err, user) => {
         if (err) throw err;
@@ -25,5 +24,6 @@ module.exports = function(dataHelpers) {
       res.redirect("/register");
     }
   });
+
   return router;
 };
