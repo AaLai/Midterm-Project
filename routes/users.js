@@ -30,9 +30,6 @@ Update/Edit: PUT /photos/:id
 Remove/Destroy: DELETE /photos/:id
 */
 
-const express = require("express");
-const router = express.Router();
-
 module.exports = function(DataHelpers) {
   router.get("/", (req, res) => {
     if (req.session) {

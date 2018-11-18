@@ -19,10 +19,7 @@ const morgan = require("morgan"); //what is this?
 const knexLogger = require("knex-logger"); //what is this?
 
 // Seperated Routes for each Resource
-const indexRoutes = require("./routes/index");
-const placeRoutes = require("./routes/places");
-const mapRoutes = require("./routes/maps");
-const registerRoutes = require("./routes/register");
+
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -56,7 +53,7 @@ app.use(
 app.use(express.static("public"));
 
 // Seperated Routes for each Resource
-
+// const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users.js");
 const placeRoutes = require("./routes/places");
 const mapRoutes = require("./routes/maps");
@@ -73,8 +70,8 @@ const usersDataHelpers = require("./db/data-helpers-users.js")(knex);
 app.use("/api/users", usersRoutes(usersDataHelpers));
 app.use("/api/map/:mapId/places", placeRoutes(placesDataHelpers));
 app.use("/api/map/:mapId", mapRoutes(mapsDataHelpers));
-app.use("/api/register", registerRoutes(usersDataHelpers));
-app.use("/api/login", loginRoutes(usersDataHelpers));
+app.use("/", registerRoutes(usersDataHelpers));
+app.use("/", loginRoutes(usersDataHelpers));
 app.use("/api/logout", logoutRoutes());
 
 // Home page

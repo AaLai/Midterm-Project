@@ -8,22 +8,22 @@ const generateRandomString = () => {
 
 module.exports = function makeMapDataHelpers(knex) {
   return {
-
     // Create map and returns mapurl
     createMap: (name, description, userid, callback) => {
       const nameStr = name.toString();
       const descriptionStr = description.toString();
       const useridInt = parseInt(userid);
       let randomNum = generateRandomString().toString();
-      return knex('maps')
+      return knex("maps")
         .insert({
           url: randomNum,
           name: nameStr,
           description: descriptionStr
         })
-        .returning('id')
-        .then((id) => {
-          return knex('user_contributions').insert({
+        .returning("id")
+        .then(id => {
+          return knex("user_contributions")
+            .insert({
               user_id: userid,
               map_id: id[0]
             })
@@ -37,47 +37,36 @@ module.exports = function makeMapDataHelpers(knex) {
         });
     },
 
-<<<<<<< HEAD
-  // deleteMap(args)
-  //   .then((res) => {
-  //     console.log('map is now gone', res)
-  //
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //
-  //   })
-=======
     // Delete map
     deleteMap: (mapid, callback) => {
       const mapIdInt = parseInt(mapid);
       return Promise.all([
-          knex('user_contributions')
-          .where('map_id', mapIdInt)
+        knex("user_contributions")
+          .where("map_id", mapIdInt)
           .del(),
-          knex('user_favourites')
-          .where('map_id', mapIdInt)
+        knex("user_favourites")
+          .where("map_id", mapIdInt)
           .del()
-        ])
+      ])
         .then(() => {
-          return knex('places')
-            .where('map_id', mapIdInt)
+          return knex("places")
+            .where("map_id", mapIdInt)
             .del();
         })
         .then(() => {
-          return knex('maps')
-            .where('id', mapIdInt)
+          return knex("maps")
+            .where("id", mapIdInt)
             .del();
         });
     },
->>>>>>> feature/ui
 
     // Find map by URL
     findMapByUrl: (url, callback) => {
       const urlStr = url.toString();
-      return knex.select('id')
-        .from('maps')
-        .where('url', urlStr)
+      return knex
+        .select("id")
+        .from("maps")
+        .where("url", urlStr)
         .asCallback((err, res) => {
           if (err) {
             callback(err);
@@ -87,31 +76,13 @@ module.exports = function makeMapDataHelpers(knex) {
         });
     },
 
-<<<<<<< HEAD
-
-
-    // Find map
-    //         by URL
-  findMapByUrl: (url, callback) => {
-    const urlStr = url.toString();
-    return knex.select('id')
-    .from('maps')
-    .where('url', urlStr)
-    .asCallback((err, res) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, res);
-      }
-    });
-  },
-=======
     // Find map by user favourites
     findMapByFavourites: (userid, callback) => {
       const useridInt = parseInt(userid);
-      return knex.select('map_id')
-        .from('user_favourites')
-        .where('user_id', useridInt)
+      return knex
+        .select("map_id")
+        .from("user_favourites")
+        .where("user_id", useridInt)
         .asCallback((err, res) => {
           if (err) {
             callback(err);
@@ -120,14 +91,14 @@ module.exports = function makeMapDataHelpers(knex) {
           }
         });
     },
->>>>>>> feature/ui
 
     // Find map by user contributions
     findMapByContribution: (userid, callback) => {
       const useridInt = parseInt(userid);
-      return knex.select('map_id')
-        .from('user_contributions')
-        .where('user_id', useridInt)
+      return knex
+        .select("map_id")
+        .from("user_contributions")
+        .where("user_id", useridInt)
         .asCallback((err, res) => {
           if (err) {
             callback(err);
@@ -137,4 +108,4 @@ module.exports = function makeMapDataHelpers(knex) {
         });
     }
   };
-}
+};
