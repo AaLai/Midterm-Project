@@ -20,9 +20,24 @@
     <input type="submit" value="Submit">
   </form><br>
 <h3> Map deletion </h3>
-  <form action="/maps/" method="POST">
-    <label for="name"> Map name here </label>
-      <input id="name" type="name" name="name"><br>
+  <form action="/maps/delete" method="POST">
+    <label for="mapid"> Map id </label>
+      <input id="mapid" type="mapid" name="mapid"><br>
+      <input type="submit" value="Submit">
+  </form>
+<h3> Req favourites </h3>
+  <form action="/maps/favourites" method="POST">
+    <label for="userid"> user id </label>
+      <input id="userid" type="userid" name="userid"><br>
+      <input type="submit" value="Submit">
+  </form>
+
+<h3> Req contribs </h3>
+    <form action="/maps/contributions" method="POST">
+    <label for="userid"> user id  </label>
+      <input id="userid" type="userid" name="userid"><br>
+      <input type="submit" value="Submit">
+  </form>
 
 </body>
 

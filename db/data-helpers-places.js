@@ -124,8 +124,7 @@ module.exports = function makeDataHelpers(knex) {
       return knex
         .select("*")
         .from("places")
-        .join("maps", "places.map_id", "maps.id")
-        .where("maps.id", mapId)
+        .where("map_id", mapId)
         .then(rows => {
           callback(rows);
         })

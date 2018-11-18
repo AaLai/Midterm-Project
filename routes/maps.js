@@ -1,68 +1,65 @@
 const express = require("express");
-const router = express.Router({
-  mergeParams: true
-});
+const router = express.Router();
 
-module.exports = function(mapFunctions) {
-  router.get("/:mapurl", function(res, req) {
-    mapFunctions.findMapByUrl(req.body.mapurl, (err, result) => {
+module.exports = function (mapFunctions) {
+
+  // this one brings up a test page
+  router.get('/', (req, res) => {
+    res.render("tester")
+  })
+
+  // creates a map and redirects to url once it's done
+  router.post('/', (req, res) => {
+    mapFunctions.createMap(req.body.name, req.body.description, req.body.userid, (err, result) => {
       if (err) {
-        res.send("something failed");
+        console.log('error', err);
       } else {
-        res.json(result);
-      }
-    });
-  });
-
-  router.delete("/:mapurl", function(req, res) {
-    mapFunctions.deleteMap(req.params.id, (err, result) => {
-      if (err) {
-        res.send("something failed");
-      } else {
-        // CHECK THIS ONE!
-        res.redirect("localhost:8080/index");
-      }
-    });
-  });
-
-  router.get("/", function(req, res) {
-    res.render("tester");
-  });
-
-  router.post("/", function(req, res) {
-    mapFunctions.createMap(
-      req.body.name,
-      req.body.description,
-      req.body.userid,
-      (err, result) => {
-        if (err) {
-          res.send("something failed");
-        } else {
-          res.redirect(`/${result}`);
-        }
+        res.redirect(`/${result}`);
       }
     );
   });
 
-  router.get("/favourites", function(req, res) {
-    mapFunctions.findMapByFavourites(req.body.userid, (err, result) => {
+  // tabkes cookie as userid and uses it to grab favourites
+  router.get('/favourites', (req, res) => {
+    mapFunctions.findMapByFavourites(req.session.userid, (err, result) => {
       if (err) {
-        res.send("something failed");
+        console.log('error', err);
       } else {
         res.json(result);
       }
     });
   });
 
-  router.get("/contributions", function(req, res) {
-    mapFunctions.findMapByContribution(req.body.userid, (err, result) => {
+  // takes cookie as userid and uses it to grab contribution
+  router.get('/contributions', (req, res) => {
+    mapFunctions.findMapByContribution(req.session.userid, (err, result) => {
       if (err) {
-        res.send("something failed");
+        console.log('error', err);
       } else {
         res.json(result);
       }
     });
   });
+
+  router.get('/:mapUrl', (req, res) => {
+    mapFunctions.findMapByUrl(req.params.mapUrl, (err, result) => {
+      if (err) {
+        console.log('error', err);
+      } else {
+        res.json(result);
+      }
+    });
+  });
+
+  // deletes a map and redirects to hopefully the index
+  router.delete('/:mapurl', (req, res) => {
+    mapFunctions.deleteMap(req.body.mapid)
+      .then((result) => {
+        console.log(res)
+        // CHECK THIS ONE!
+        res.redirect('/')
+      })
+  })
 
   return router;
 };
