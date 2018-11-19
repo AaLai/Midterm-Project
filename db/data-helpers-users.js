@@ -61,7 +61,6 @@ module.exports = function makeUserDataHelpers(knex) {
         .from("users")
         .where("email", emailStr)
         .andWhere("password", passwordStr)
-        .from("users")
         .asCallback((err, res) => {
           if (err) {
             callback(err);

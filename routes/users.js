@@ -5,31 +5,6 @@ const router = express.Router();
 // const DataHelpers = require("...DataHelpers");
 // const bcrypt = require("bcryptjs");
 
-/* example by default
-router.get("/users", (req, res) => {
-    const user = knex('users').select(*).where('id', req.session.user_id);
-    const favoritesList = knex(); // connect to the favorite
-    const contributionsList = knex(); //
-    .select("*")
-    .from("users")
-      .then(results =>
-      {
-        const templateVars = {
-          user: req.body.user_id,
-          favorites:,
-        0p   contributions:,
-          makers:
-        };
-      res.json(results); //???
-    });
-/*
-Browse/List/Index: GET /photos
-Create/Add: POST /photos
-Read/Show: GET /photos/:id
-Update/Edit: PUT /photos/:id
-Remove/Destroy: DELETE /photos/:id
-*/
-
 module.exports = function(DataHelpers) {
   router.get("/", (req, res) => {
     if (req.session) {
@@ -61,27 +36,6 @@ module.exports = function(DataHelpers) {
   });
 
   // verify the user information
-  router.get("/login", (req, res) => {
-    res.send("this is the login page");
-  });
-
-  // PUT perhaps
-  router.post("/login", (req, res) => {
-    if (req.body.username && req.body.password) {
-      DataHelpers.loginUser(req.body.username, req.body.password, function(
-        err,
-        userObj
-      ) {
-        if (err) throw err;
-        if (userObj) {
-          //save the cookiesession {id, email, name};
-          res.redirect("/");
-        } else {
-          res.redirect("/login");
-        }
-      });
-    }
-  });
 
   // DELETE perhaps
   router.post("/logout", (req, res) => {
@@ -97,29 +51,6 @@ module.exports = function(DataHelpers) {
   });
 
   // insert the input info into database
-  router.post("/register", (req, res) => {
-    if (req.body.email && req.body.name) {
-      DataHelpers.createUser(req.body.email, req.body.password, (err, xxx) => {
-        if (err) throw err;
-        req.body.user_id = arrIds[0]; //user the seesion later
-        req.body.email;
-        req.body.password = test;
-        res.redirect("/login"); // to the main page??
-      });
-    } else {
-      const templateVars = {
-        user: null
-      };
-      res.render("index", templateVars);
-    }
-  });
-
-  // List all the maps ListObj as the placehoder
-  router.get("/maps", (req, res) => {
-    DataHelpers.getMapList((err, listObj) => {
-      res.json(listObj);
-    });
-  });
 
   //create a new map, generate map_id for each map
   router.post("/maps", (req, res) => {

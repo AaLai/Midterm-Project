@@ -3,15 +3,6 @@ module.exports = function(dataHelpers) {
   const express = require("express");
   const router = express.Router();
 
-  router.get("/api/login", (req, res) => {
-    res.render("login");
-  });
-
-  //set the cookie session.
-  /*
-  // return the use_id once input the correct password and email
-  */
-
   router.post("/api/login", (req, res) => {
     if (req.body.email && req.body.password) {
       dataHelpers.userIdByEmailPassword(
@@ -19,21 +10,31 @@ module.exports = function(dataHelpers) {
         req.body.password,
         (err, user) => {
           if (err) throw err;
-          console.log("this is an error", err); // how to use the throw error
           if (user) {
+            console.log("success", user);
+            // res.json(user.id);
             req.session.user_id = user.id;
-            // req.session.email = users.email;
-            // req.session.password = users.password;
             res.redirect("/");
           } else {
-            res.redirect("/api/login");
+            console.log("failed");
+            res.redirect("/");
           }
         }
       );
     } else {
+      // empty form submit
       res.redirect("/api/register");
     }
   });
+
+  // router.get("/api/login/:user_id", (req, res) => {
+  //   if (!req.session.user_id) {
+  //     req.session.user_id = req.params.user_id;
+  //   } else {
+  //     alert("OK!");
+  //   }
+  //   res.status(200).redirect("/");
+  // });
 
   return router;
 };

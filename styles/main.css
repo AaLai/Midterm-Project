@@ -1,0 +1,33 @@
+#mapid {
+  width: 100%;
+  height: 500px;
+}
+
+.place-img {
+  width: 100px;
+  height: 100px;
+}
+
+.place-title {
+  display: block;
+}
+
+.container div.two-pane {
+  position: relative;
+  top: 100px;
+  display: flex;
+}
+
+.two-pane div ul {
+  width: 200px;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+#register {
+  color: #d0d0d0;
+}
+
+#register:hover {
+  color: #fff;
+}

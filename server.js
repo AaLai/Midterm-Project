@@ -53,7 +53,7 @@ app.use(
 app.use(express.static("public"));
 
 // Seperated Routes for each Resource
-// const indexRoutes = require("./routes/index");
+const indexRoutes = require("./routes/index")(knex);
 const usersRoutes = require("./routes/users.js");
 const placeRoutes = require("./routes/places");
 const mapRoutes = require("./routes/maps");
@@ -67,17 +67,15 @@ const mapsDataHelpers = require("./db/data-helpers-maps.js")(knex);
 const usersDataHelpers = require("./db/data-helpers-users.js")(knex);
 
 // Mount all resource routes
+app.use(indexRoutes);
 app.use("/api/users", usersRoutes(usersDataHelpers));
 app.use("/api/map/:mapId/places", placeRoutes(placesDataHelpers));
 app.use("/api/map/:mapId", mapRoutes(mapsDataHelpers));
-app.use("/", registerRoutes(usersDataHelpers));
-app.use("/", loginRoutes(usersDataHelpers));
-app.use("/api/logout", logoutRoutes());
+app.use(registerRoutes(usersDataHelpers));
+app.use(loginRoutes(usersDataHelpers));
+app.use(logoutRoutes());
 
 // Home page
-app.get("/", (req, res) => {
-  res.render("index");
-});
 
 app.post("wat", (req, res) => {
   console.log("BODY", req.body);
